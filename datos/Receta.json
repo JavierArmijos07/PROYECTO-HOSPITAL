@@ -1,1 +1,1 @@
-{"controlador.listas.ListaS":{"cabecera":{"dato":{"@class":"modelo.Receta","IdReceta":1,"nombre":"Ibuprofeno","cantidad":10}}}}
+{"controlador.listas.ListaS":{"cabecera":{"Siguiente":{"dato":{"@class":"modelo.Receta","IdReceta":1,"nombre":"Ibuprofeno","cantidad":10}},"dato":{"@class":"modelo.Receta","IdReceta":2,"nombre":"Aspirina","cantidad":50}}}}

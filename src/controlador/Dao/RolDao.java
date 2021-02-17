@@ -42,12 +42,17 @@ public class RolDao extends AdaptadorDao {
     public void setRol(Rol rol) {
         this.rol = rol;
     }
-
-    public ListaS ordenar(ListaS Estudiantes, int tipo_ordenacion, String atributo) {
-        Estudiantes.ordenar(tipo_ordenacion, atributo);
-        return Estudiantes;
+/**
+    *Metodo que permite Listar
+    *@param tipo_ordenacion  el identificador de cuenta
+    *@param atributo  el identificador de cuenta
+    *@return Pacientes
+    */
+    public ListaS ordenar(ListaS Pacientes, int tipo_ordenacion, String atributo) {
+        Pacientes.ordenar(tipo_ordenacion, atributo);
+        return Pacientes;
     }
-/*
+
     public void crearRoles() {
         PersonaDao pdao = new PersonaDao();
         if (listar().tamano() == 0) {
@@ -68,9 +73,9 @@ public class RolDao extends AdaptadorDao {
                 long id_rol = (objeto != null) ? ((Rol) objeto).getId() : -1;
                 System.out.println("Se encontro " + objeto);
 
-                pdao.getPersona().setApellidos("Particular");
-                pdao.getPersona().setNombres("Particular");
-                pdao.getPersona().setCedula("2222222222");
+                pdao.getPersona().setApellido("Particular");
+                pdao.getPersona().setNombre("Particular");
+                pdao.getPersona().setCedula("1104141781");
                 pdao.getPersona().setDireccion("Casa");
                 pdao.getPersona().setExternal_id(UUID.randomUUID().toString());
                 //pdao.getPersona().setId(pdao.listar().tamano() + 1);
@@ -81,7 +86,7 @@ public class RolDao extends AdaptadorDao {
                 cdao.getCuenta().setClave("1234");
                 cdao.getCuenta().setEstado(Boolean.TRUE);
                 cdao.getCuenta().setExternal_id(UUID.randomUUID().toString());
-                cdao.getCuenta().setId_persona(pdao.getPersona().getId());
+                cdao.getCuenta().setId_persona(pdao.getPersona().getId_rol());
                 cdao.getCuenta().setUsuario("2222222222");
                 cdao.guardar();
                 pdao.setPersona(null);
@@ -89,5 +94,5 @@ public class RolDao extends AdaptadorDao {
             }
         }
 
-    } */
+    } 
 }

@@ -6,13 +6,16 @@
 package vista;
 
 import controlador.Dao.PacienteDao;
+import controlador.Utilidades.Utilidades;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import modelo.Paciente;
 import vista.modeloTabla.TablaPaciente;
 
 /**
@@ -24,6 +27,7 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
     private TablaPaciente modelo = new TablaPaciente();
     private PacienteDao ed = new PacienteDao();
     TableRowSorter trs;
+    private Utilidades utilidades = new Utilidades();
 
     /**
      * Creates new form FrmPaciente
@@ -42,15 +46,15 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
     }
 
     private void limpiar() {
+
         ed.setPaciente(null);
         txtapellidos.setText("");
         txtCedula.setText("");
-        txtdireccion.setText("");
+        txtDireccion.setText("");
         txtapellidos.setText("");
         txtnombres.setText("");
         txttelefono.setText("");
         txtPatologia.setText("");
-
     }
 
     private void accesibilidad() {
@@ -60,65 +64,46 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
         cbxSexo.setEnabled(false);
         txtDate.setEnabled(false);
         txttelefono.setEnabled(false);
-        txtdireccion.setEnabled(false);
+        txtDireccion.setEnabled(false);
         txtPatologia.setEnabled(false);
     }
 
+    
     private void guardar() {
 
         if (txtCedula.getText().isEmpty() || txtapellidos.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Llene todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
             limpiar();
         } else {
-            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-            String date = df.format(txtDate.getDate());
-            ed.setPaciente(null);
-            ed.getPaciente().setApellido(txtapellidos.getText());
-            ed.getPaciente().setCedula(Integer.parseInt(txtCedula.getText()));
-            ed.getPaciente().setCiudad(txtdireccion.getText());
-            ed.getPaciente().setNombre(txtnombres.getText());
-            ed.getPaciente().setTelefono(Integer.parseInt(txttelefono.getText()));
-            ed.getPaciente().setSexo(cbxSexo.getSelectedItem().toString());
-            ed.getPaciente().setFecha_entrada(date);
-            ed.getPaciente().setPatologia(txtPatologia.getText());
-            if (ed.guardar()) {
-                JOptionPane.showMessageDialog(this, "Se ha guardado correctamente", "OK", JOptionPane.INFORMATION_MESSAGE);
-                cargarTabla();
-                limpiar();
-                accesibilidad();
-            } else {
-                JOptionPane.showMessageDialog(this, "No se pudo guardar", "Error", JOptionPane.ERROR_MESSAGE);
+
+            // SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            // String date = df.format(txtDate.getDate());
+            if (utilidades.validadorDeCedula(txtCedula.getText())) {
+                ed.setPaciente(null);
+                ed.getPaciente().setApellidoPaciente(txtapellidos.getText());
+                ed.getPaciente().setCedulaPaciente(txtCedula.getText());
+                ed.getPaciente().setCiudad(txtDireccion.getText());
+                ed.getPaciente().setNombrePaciente(txtnombres.getText());
+                ed.getPaciente().setTelefono(txttelefono.getText());
+                ed.getPaciente().setSexo(cbxSexo.getSelectedItem().toString());
+                ed.getPaciente().setFecha_entrada(txtDate.getDate());
+                ed.getPaciente().setPatologia(txtPatologia.getText());
+
+                if (ed.guardar()) {
+                    JOptionPane.showMessageDialog(this, "Se ha guardado correctamente", "OK", JOptionPane.INFORMATION_MESSAGE);
+                    cargarTabla();
+                    limpiar();
+                    accesibilidad();
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se pudo guardar", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "La cedula no es valida", "Error", JOptionPane.ERROR_MESSAGE);
             }
+
         }
     }
     int posicion = 0;
-
-    private void modificar() {
-        ed.modificar(ed, posicion);
-        if (ed.guardar()) {
-            JOptionPane.showMessageDialog(this, "Se ha actualizado correctamente", "OK", JOptionPane.INFORMATION_MESSAGE);
-            cargarTabla();
-            limpiar();
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo actualizar", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }
-
-    private void eliminar() {
-
-        ed.setPaciente(null);
-
-        if (ed.eliminarI(posicion)) {
-            JOptionPane.showMessageDialog(this, "Se ha eliminado correctamente", "OK", JOptionPane.INFORMATION_MESSAGE);
-            cargarTabla();
-            limpiar();
-            accesibilidad();
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo eliminar", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }
 
     private void buscar() {
 
@@ -153,8 +138,8 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
         txtbuscar = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         btnguardar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
+        btnActivar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         lblNombres = new javax.swing.JLabel();
         lblCedula = new javax.swing.JLabel();
@@ -167,7 +152,7 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         txtCedula = new javax.swing.JTextField();
         txtapellidos = new javax.swing.JTextField();
-        txtdireccion = new javax.swing.JTextField();
+        txtDireccion = new javax.swing.JTextField();
         txtnombres = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -253,17 +238,17 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton1.setText("Actualizar Datos");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnActualizar.setText("Actualizar Datos");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnActualizarActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Nuevo Paciente");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnActivar.setText("Nuevo Paciente");
+        btnActivar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnActivarActionPerformed(evt);
             }
         });
 
@@ -344,8 +329,8 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
                         .addGap(29, 29, 29)
                         .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnguardar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnActivar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(33, Short.MAX_VALUE))
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -356,9 +341,9 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(btnguardar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(btnActualizar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addComponent(btnActivar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
                 .addGap(64, 64, 64)
@@ -436,7 +421,7 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                    .addComponent(txtdireccion)
+                    .addComponent(txtDireccion)
                     .addComponent(txttelefono)
                     .addComponent(txtDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(50, 50, 50))
@@ -462,7 +447,7 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
                             .addComponent(txttelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
                             .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
@@ -473,7 +458,7 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
                                 .addComponent(cbxSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel10)
                                 .addComponent(jLabel8)))))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -500,17 +485,18 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tbltablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbltablaMouseClicked
-        int seleccion = tbltabla.rowAtPoint(evt.getPoint());
-        //lblId.setText("ID: " + String.valueOf(tbltabla.getValueAt(seleccion, 0)));
+//        int seleccion = tbltabla.rowAtPoint(evt.getPoint());
+//        //lblId.setText("ID: " + String.valueOf(tbltabla.getValueAt(seleccion, 0)));
+//
+//        txtCedula.setText(String.valueOf(tbltabla.getValueAt(seleccion, 1)));
+//        txtnombres.setText(String.valueOf(tbltabla.getValueAt(seleccion, 2)));
+//        txtapellidos.setText(String.valueOf(tbltabla.getValueAt(seleccion, 3)));
+//        txttelefono.setText(String.valueOf(tbltabla.getValueAt(seleccion, 4)));
+//        txtDireccion.setText(String.valueOf(tbltabla.getValueAt(seleccion, 5)));
+//        cbxSexo.setSelectedItem(String.valueOf(tbltabla.getValueAt(seleccion, 6)));
+//        txtDate.setDate((java.util.Date) tbltabla.getValueAt(seleccion, 7));
+//        txtPatologia.setText((String) tbltabla.getValueAt(seleccion, 8));
 
-        lblCedula.setText("Cedula: " + String.valueOf(tbltabla.getValueAt(seleccion, 1)));
-        lblNombres.setText("Nombre: " + String.valueOf(tbltabla.getValueAt(seleccion, 2)));
-        lblApellido.setText("Apellido: " + String.valueOf(tbltabla.getValueAt(seleccion, 3)));
-        lblTelfono.setText("Telefono: " + String.valueOf(tbltabla.getValueAt(seleccion, 4)));
-        lblDireccion.setText("Direccio: " + String.valueOf(tbltabla.getValueAt(seleccion, 5)));
-        lblSexo.setText("Sexo: " + String.valueOf(tbltabla.getValueAt(seleccion, 6)));
-        lblFecha.setText("Fecha: " + String.valueOf(tbltabla.getValueAt(seleccion, 7)));
-        lblPatologia.setText("Patología: " + String.valueOf(tbltabla.getValueAt(seleccion, 8)));
     }//GEN-LAST:event_tbltablaMouseClicked
 
     private void txtbuscarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtbuscarCaretUpdate
@@ -522,27 +508,50 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtbuscarKeyTyped
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        eliminar();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         guardar();
+        //guardarDatosXstream();
     }//GEN-LAST:event_btnguardarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        modificar();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void cargarVista() {
+        txtCedula.setText(ed.getPaciente().getCedulaPaciente());
+        txtnombres.setText(ed.getPaciente().getNombrePaciente());
+        txtapellidos.setText(ed.getPaciente().getApellidoPaciente());
+        txttelefono.setText(ed.getPaciente().getTelefono());
+        cbxSexo.setSelectedItem(ed.getPaciente().getSexo());
+        txtDate.setDate(ed.getPaciente().getFecha_entrada());
+        txtPatologia.setText(ed.getPaciente().getPatologia());
+        txtDireccion.setText(ed.getPaciente().getDireccion());
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    }
+
+    private void editar() {
+        int fila = tbltabla.getSelectedRow();
+        if (fila >= 0) {
+            // ed.setPaciente(ed.obtener());
+            cargarVista();
+        } else {
+            JOptionPane.showMessageDialog(this, " Elija un registro de la tabla", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        editar();
+    }//GEN-LAST:event_btnActualizarActionPerformed
+    private void activar() {
         txtnombres.setEnabled(true);
         txtapellidos.setEnabled(true);
         txtCedula.setEnabled(true);
         cbxSexo.setEnabled(true);
         txtDate.setEnabled(true);
         txttelefono.setEnabled(true);
-        txtdireccion.setEnabled(true);
+        txtDireccion.setEnabled(true);
         txtPatologia.setEnabled(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }
+    private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarActionPerformed
+        activar();
+    }//GEN-LAST:event_btnActivarActionPerformed
 
     private void cbxSexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSexoActionPerformed
         // TODO add your handling code here:
@@ -550,11 +559,11 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActivar;
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnguardar;
     private javax.swing.JComboBox<String> cbxSexo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -578,13 +587,13 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblPatologia;
     private javax.swing.JLabel lblSexo;
     private javax.swing.JLabel lblTelfono;
-    private javax.swing.JTable tbltabla;
+    public static javax.swing.JTable tbltabla;
     private javax.swing.JTextField txtCedula;
     private com.toedter.calendar.JDateChooser txtDate;
+    private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextArea txtPatologia;
     private javax.swing.JTextField txtapellidos;
     private javax.swing.JTextField txtbuscar;
-    private javax.swing.JTextField txtdireccion;
     private javax.swing.JTextField txtnombres;
     private javax.swing.JTextField txttelefono;
     // End of variables declaration//GEN-END:variables

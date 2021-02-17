@@ -5,31 +5,26 @@
  */
 package modelo;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
  *
  * @author javie
  */
-public class Persona {
-    public Long IdMedico,IdPaciente;
-    public String nombre;
-    public String apellido;
+
+public class Persona implements Serializable{
+    public Long IdMedico;
+    public String Nombre;
+    public String Apellido;
+    public String Cedula;
     public String direccion;
     public String correo;
-    public int telefono;
-    public int cedula;
-    private String Fecha_entrada;
-    private String Sexo;
-    private String Ciudad;
-    private String Patologia;
-    Rol rol;
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public String telefono;
+    public String external_id;
+    public Long id_rol;
+    private Rol rol;
+    private Cuenta cuenta;
 
     public Long getIdMedico() {
         return IdMedico;
@@ -37,6 +32,30 @@ public class Persona {
 
     public void setIdMedico(Long IdMedico) {
         this.IdMedico = IdMedico;
+    }
+
+    public String getNombre() {
+        return Nombre;
+    }
+
+    public void setNombre(String Nombre) {
+        this.Nombre = Nombre;
+    }
+
+    public String getApellido() {
+        return Apellido;
+    }
+
+    public void setApellido(String Apellido) {
+        this.Apellido = Apellido;
+    }
+
+    public String getCedula() {
+        return Cedula;
+    }
+
+    public void setCedula(String Cedula) {
+        this.Cedula = Cedula;
     }
 
     public String getDireccion() {
@@ -55,70 +74,29 @@ public class Persona {
         this.correo = correo;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
-    public Long getIdPaciente() {
-        return IdPaciente;
+    public String getExternal_id() {
+        return external_id;
     }
 
-    public void setIdPaciente(Long IdPaciente) {
-        this.IdPaciente = IdPaciente;
+    public void setExternal_id(String external_id) {
+        this.external_id = external_id;
     }
 
-    public String getApellido() {
-        return apellido;
+    public Long getId_rol() {
+        return id_rol;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setId_rol(Long id_rol) {
+        this.id_rol = id_rol;
     }
-
-    public int getCedula() {
-        return cedula;
-    }
-
-    public void setCedula(int cedula) {
-        this.cedula = cedula;
-    }
-
-    public String getFecha_entrada() {
-        return Fecha_entrada;
-    }
-
-    public void setFecha_entrada(String Fecha_entrada) {
-        this.Fecha_entrada = Fecha_entrada;
-    }
-
-    public String getSexo() {
-        return Sexo;
-    }
-
-    public void setSexo(String Sexo) {
-        this.Sexo = Sexo;
-    }
-
-    public String getCiudad() {
-        return Ciudad;
-    }
-
-    public void setCiudad(String Ciudad) {
-        this.Ciudad = Ciudad;
-    }
-
-    public String getPatologia() {
-        return Patologia;
-    }
-
-    public void setPatologia(String Patologia) {
-        this.Patologia = Patologia;
-    }
-
 
     public Rol getRol() {
         return rol;
@@ -127,4 +105,8 @@ public class Persona {
     public void setRol(Rol rol) {
         this.rol = rol;
     }
+
+   
+
+    
 }

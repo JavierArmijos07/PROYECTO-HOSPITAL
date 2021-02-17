@@ -5,10 +5,12 @@
  */
 package modelo;
 
+
 /**
  *
  * @author javie
  */
+
 public class Receta {
     public Long IdReceta;
     public String nombre;

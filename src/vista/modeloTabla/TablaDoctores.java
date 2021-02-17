@@ -39,7 +39,7 @@ public class TablaDoctores extends AbstractTableModel{
         Medico e = (Medico)lista.obtenerPorPosicion(i);
         switch(i1) {
             case 0: return i+1;
-            case 1: return e.getNombre();
+            case 1: return e.getNombreMedico();
             case 2: return e.getDireccion();
             case 3: return e.getCorreo();
             case 4: return e.getTelefono();

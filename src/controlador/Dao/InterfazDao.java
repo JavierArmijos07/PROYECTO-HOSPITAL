@@ -6,13 +6,16 @@
 package controlador.Dao;
 
 import controlador.listas.ListaS;
+import modelo.Persona;
 /**
  *
  * @author javie
  */
 public interface InterfazDao {
     public void guardar(Object o) throws Exception;
-    public void eliminar(Object o) throws Exception;
-    public Boolean modificar(Object o, int accion);
-    public ListaS listar();    
+    public void modificar(Object o)throws Exception;
+    public ListaS listar();  
+    public Object obtener(Long id);
+    public Long generarId();
+    
 }

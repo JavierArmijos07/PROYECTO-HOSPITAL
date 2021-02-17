@@ -10,6 +10,7 @@ import controlador.listas.ListaS;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -28,21 +29,11 @@ public class AdaptadorDao implements InterfazDao {
 
     @Override
     public void guardar(Object o) throws Exception {
-        ListaS lista = listar();
+        ListaS lista = this.listar();
         lista.insertar(o);
-        conexion.getXtrStream().toXML(lista, new FileOutputStream(conexion.getREPO() + File.separatorChar + clazz.getSimpleName() + ".json"));
+        conexion.getXtrStream().toXML(lista, new FileOutputStream(conexion.getREPO()
+                + File.separatorChar + clazz.getSimpleName() + ".json"));
 
-    }
-
-    @Override
-    public Boolean modificar(Object o, int accion) {
-        if (accion == 0) {
-            ListaS lista = listar();
-            lista.editar(accion, o);
-            conexion.getXtrStream().toXML(lista);
-
-        }
-        return false;
     }
 
     @Override
@@ -50,7 +41,6 @@ public class AdaptadorDao implements InterfazDao {
         ListaS lista = new ListaS();
         try {
             lista = (ListaS) conexion.getXtrStream().fromXML(new FileReader(conexion.getREPO() + File.separatorChar + clazz.getSimpleName() + ".json"));
-            //Object obj = xtrStream.fromXML(new FileReader(url+File.separatorChar+"horario.json") );
 
         } catch (Exception e) {
             System.out.println("No se pudo listar " + e);
@@ -59,11 +49,76 @@ public class AdaptadorDao implements InterfazDao {
         return lista;
     }
 
+    
     @Override
-    public void eliminar(Object o) throws Exception {
-        ListaS lista = listar();
-        lista.EliminarXDato((String) o);
-        conexion.getXtrStream().toXML(lista, new FileOutputStream(conexion.getREPO() + File.separatorChar + clazz.getSimpleName() + ".json"));
-
+    public void modificar(Object o) throws Exception {
+        Field aux = this.obtenerIdF();
+        Long id = (Long)aux.getLong(o);
+        Object auxobj = obtener(id);
+        if (auxobj != null) {
+            ListaS lista = listar();
+            lista.EliminarXDato(id.intValue() - 1);
+            lista.insertar(id.intValue() - 1, (int) o);
+            conexion.getXtrStream().toXML(lista, new FileOutputStream(conexion.getREPO()
+                    + File.separatorChar + clazz.getSimpleName() + ".json"));
+        }
     }
+
+    @Override
+    public Long generarId() {
+        Long id = new Long(1);
+        if (listar().tamano() > 0) {
+            id = new Long(listar().tamano() + 1);
+
+        }
+        return id;
+    }
+
+    public Field obtenerIdF() {
+        Field aux = null;
+        Field[] flieds = clazz.getDeclaredFields();
+        try {
+            for (Field f : flieds) {
+                if (f.getType().getSimpleName().equalsIgnoreCase("Long") && f.getName().contains("Id")) {
+                    aux = f;
+                    break;
+                }
+            }
+            if (aux == null) {
+                flieds = clazz.getSuperclass().getDeclaredFields();
+                for (Field f : flieds) {
+                    if (f.getType().getSimpleName().equalsIgnoreCase("Long") && f.getName().contains("Id")) {
+                        aux = f;
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("error" + e);
+        }
+        return aux;
+    }
+
+    @Override
+    public Object obtener(Long id) {
+        Object obj = null;
+        try {
+            Field aux = this.obtenerIdF();
+            
+            for (int i = 0; i < listar().tamano(); i++) {
+                Object val = aux.get(obj);
+                Long idvalue = (Long) val;
+                if (idvalue.intValue()==id.intValue()) {
+                    obj = i;
+                    break;
+                }
+            }
+
+
+        } catch (Exception e) {
+        }
+
+        return obj;
+    }
+
 }

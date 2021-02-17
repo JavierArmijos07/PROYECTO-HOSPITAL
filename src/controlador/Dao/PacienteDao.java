@@ -29,11 +29,26 @@ public class PacienteDao extends AdaptadorDao {
 
     public Boolean guardar() {
         try {
+
             this.getPaciente().setIdPaciente(Long.parseLong(String.valueOf(listar().tamano() + 1)));
             this.guardar(this.getPaciente());
             return true;
+
         } catch (Exception e) {
-            System.out.println("Error en guardar Estudiante " + e);
+            System.out.println("Error en guardar Paciente " + e.getMessage());
+            return false;
+        }
+    }
+
+    public Boolean modificar() {
+        try {
+
+            this.getPaciente().setIdPaciente(Long.parseLong(String.valueOf(listar().tamano() +1)));
+            this.modificar(this.getPaciente());
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Error en modificar Paciente " + e.getMessage());
             return false;
         }
     }
@@ -41,15 +56,19 @@ public class PacienteDao extends AdaptadorDao {
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
     }
-
+    /**
+    *Metodo que permite eliminar  
+    *@param posicion el identificador de cuenta
+    *@return true
+    */
     public boolean eliminarI(int posicion) {
         try {
             
             this.getPaciente().setIdPaciente(Long.parseLong(String.valueOf(listar().tamano() + 1)));
-            this.eliminar(posicion);
+            this.eliminarI(posicion);
             return true;
         } catch (Exception e) {
-            System.out.println("Error en eliminar Estudiante " + e);
+            System.out.println("Error en eliminar " + e);
             return false;
         }
     }

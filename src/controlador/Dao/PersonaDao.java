@@ -5,6 +5,8 @@
  */
 package controlador.Dao;
 import controlador.listas.ListaS;
+import java.util.ArrayList;
+import java.util.List;
 import modelo.Persona;
 
 /**
@@ -32,13 +34,16 @@ public class PersonaDao extends AdaptadorDao {
             this.guardar(this.getPersona());
             return true;
         } catch (Exception e) {
-            System.out.println("Error en guardar Paciente "+ e);
+            System.out.println("Error en guardar Persona "+ e);
             return false;
         }
     }
-
+    
     public void setPersona(Persona persona) {
         this.persona = persona;
+    }
+    public void nuevaPersona(){
+        this.persona = null;
     }
     
     public ListaS ordenar(ListaS Estudiantes, int tipo_ordenacion, String atributo) {

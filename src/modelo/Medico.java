@@ -11,6 +11,10 @@ package modelo;
  */
 public class Medico extends Persona{
 
+    public String nombreMedico;
+    public String apellidoMedico;
+    public String cedulaMedico;
+    
     public Medico(){
         
     }
@@ -23,13 +27,31 @@ public class Medico extends Persona{
         this.IdMedico = IdMedico;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreMedico() {
+        return nombreMedico;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreMedico(String nombreMedico) {
+        this.nombreMedico = nombreMedico;
     }
+
+    public String getApellidoMedico() {
+        return apellidoMedico;
+    }
+
+    public void setApellidoMedico(String apellidoMedico) {
+        this.apellidoMedico = apellidoMedico;
+    }
+
+    public String getCedulaMedico() {
+        return cedulaMedico;
+    }
+
+    public void setCedulaMedico(String cedulaMedico) {
+        this.cedulaMedico = cedulaMedico;
+    }
+
+    
 
     public String getDireccion() {
         return direccion;
@@ -47,21 +69,21 @@ public class Medico extends Persona{
         this.correo = correo;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-
+/*
     public Rol getRol() {
         return rol;
     }
 
     public void setRol(Rol rol) {
         this.rol = rol;
-    }
+    }*/
     
 
     

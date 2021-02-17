@@ -7,6 +7,7 @@ package controlador.listas;
 
 import controlador.Utilidades.Utiles;
 import javax.swing.JOptionPane;
+import modelo.Paciente;
 
 /**
  *
@@ -48,7 +49,7 @@ public class ListaS {
     public boolean estaVacio() {
         return (this.cabecera == null);//(this.cabecera != null) ? false : true;
     }
-    public void EliminarXDato(String dato) {
+    public void EliminarXDato(int dato) {
         
         Nodo tmp = cabecera;
         do {
@@ -75,7 +76,11 @@ public class ListaS {
         }
         return dato;
     }
-
+/**
+    *Metodo que permite ordenar datos por posicion 
+    *@param pos  el identificador de odrdebarporPosicion de ListaS
+    *@return dato
+    */
     public Object obtenerPorPosicion(int pos) {
         Object dato = null;
         if (!estaVacio()&& pos >= 0) {
@@ -146,8 +151,12 @@ public class ListaS {
             }
         }
     }
-    //2020-12-12 ---String
-    
+       /**
+    *Metodo que permite ordenar datos
+    *@param tipo_ordenacion   el identificador de ordenar
+    *@param atributo   el identificador de ordenar
+    *@return this
+    */
     public ListaS ordenar(int tipo_ordenacion, String atributo) {
         if (!estaVacio()) {
             for (int i = 0; i < tamano() - 1; i++) {
@@ -164,7 +173,12 @@ public class ListaS {
         }
         return this;
     }
-    
+    /**
+    *Metodo que permite realizar busqueda binaria 
+    *@param dato    el identificador de dato
+    *@param atributo   el identificador atributo
+    *@return null
+    */    
     public Object busquedaBinaria(String dato, String atributo) {
         System.out.println("DATO " + dato + " ATRIBUTO " + atributo);
         int n = tamano();
@@ -188,6 +202,10 @@ public class ListaS {
         }
         return null;
     }
+
+
+
+   
     
 
 }

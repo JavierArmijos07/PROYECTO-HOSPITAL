@@ -39,9 +39,9 @@ public class TablaPaciente extends AbstractTableModel{
         Paciente e = (Paciente)lista.obtenerPorPosicion(i);
         switch(i1) {
             case 0: return i+1;
-            case 1: return e.getCedula();
-            case 2: return e.getNombre();
-            case 3: return e.getApellido();
+            case 1: return e.getCedulaPaciente();
+            case 2: return e.getNombrePaciente();
+            case 3: return e.getApellidoPaciente();
             case 4: return e.getTelefono();
             case 5: return e.getCiudad();
             case 6: return e.getSexo();

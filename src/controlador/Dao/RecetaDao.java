@@ -32,7 +32,7 @@ public class RecetaDao extends AdaptadorDao{
             this.guardar(this.getReceta());
             return true;
         } catch (Exception e) {
-            System.out.println("Error en guardar Estudiante " + e);
+            System.out.println("Error en guardar Receta " + e);
             return false;
         }
     }

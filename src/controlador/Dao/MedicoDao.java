@@ -32,7 +32,7 @@ public class MedicoDao extends AdaptadorDao{
             this.guardar(this.getMedico());
             return true;
         } catch (Exception e) {
-            System.out.println("Error en guardar Estudiante " + e);
+            System.out.println("Error en guardar Medico " + e);
             return false;
         }
     }

@@ -50,7 +50,6 @@ public class Frm_Hospital extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -166,14 +165,6 @@ public class Frm_Hospital extends javax.swing.JFrame {
         jMenu6.add(jMenuItem5);
         jMenu6.add(jSeparator2);
 
-        jMenuItem6.setText("Historial Clinico");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        jMenu6.add(jMenuItem6);
-
         jMenuBar2.add(jMenu6);
 
         jMenu4.setText("Recetas");
@@ -255,13 +246,6 @@ public class Frm_Hospital extends javax.swing.JFrame {
         fec.show();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        /*HistorialClinico hc = new HistorialClinico();
-        this.dpContenedor.add(hc);
-        hc.show();
-        hc.setLocationRelativeTo(null);*/
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
-
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         FrmConsultaM fcm = new FrmConsultaM();
         this.dpContenedor.add(fcm);
@@ -317,7 +301,7 @@ public class Frm_Hospital extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane dpContenedor;
+    public static javax.swing.JDesktopPane dpContenedor;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -334,7 +318,6 @@ public class Frm_Hospital extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPopupMenu.Separator jSeparator1;

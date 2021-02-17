@@ -6,6 +6,7 @@
 package vista;
 
 import controlador.Dao.MedicoDao;
+import controlador.Utilidades.Utilidades;
 import controlador.listas.ListaS;
 import controlador.listas.Nodo;
 import java.awt.event.KeyAdapter;
@@ -25,7 +26,7 @@ public class FrmMedico extends javax.swing.JInternalFrame {
     TablaDoctores modelo = new TablaDoctores();
     private MedicoDao me = new MedicoDao();
     TableRowSorter trs;
-    
+    private Utilidades utilidades = new Utilidades();
 
     /**
      * Creates new form frm_Citas
@@ -84,11 +85,11 @@ public class FrmMedico extends javax.swing.JInternalFrame {
         if (txtNombre.getText().isEmpty() || txtDireccion.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Llene todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-
+            
             me.setMedico(null);
-            me.getMedico().setNombre(txtNombre.getText());
+            me.getMedico().setNombreMedico(txtNombre.getText());
             me.getMedico().setDireccion(txtDireccion.getText());
-            me.getMedico().setTelefono(Integer.parseInt(txtTelefono.getText()));
+            me.getMedico().setTelefono(txtTelefono.getText());
             me.getMedico().setCorreo(txtEmail.getText());
 
             if (me.guardar()) {
